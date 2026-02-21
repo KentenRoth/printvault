@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  printvault:
+    build:
+      context: ./backend/PrintVault.Backend
+      dockerfile: Dockerfile
+    container_name: printvault
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__PrintVault=Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${DB_USER};Password=${DB_PASSWORD}
+      - PRINTVAULT_DATA_ROOT=/data
+      - PRINTVAULT_INCOMING=/data/incoming
+      - PRINTVAULT_MODELS=/data/models
+    volumes:
+      - ./data:/data
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: printvault-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
