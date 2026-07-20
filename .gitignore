@@ -524,10 +524,6 @@ FodyWeavers.xsd
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Appsettings
-appsettings.json
-appsettings.*.json
-
 # Environment variables
 .env
 .env.local
