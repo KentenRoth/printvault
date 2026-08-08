@@ -22,4 +22,14 @@
       <ProjectReference Include="..\PrintVault.Backend\PrintVault.Backend.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="TestData\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="TestData\Post-it_holder_and_templates_V2.3mf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
