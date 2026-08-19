@@ -11,6 +11,8 @@ builder.Services.Configure<StorageOptions>(
 builder.Services.AddDbContext<PrintVaultContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PrintVault")));
 
+builder.Services.AddSingleton<MfParserService>();
+builder.Services.AddScoped<ModelIngestionService>();
 builder.Services.AddHostedService<FileWatcherService>();
 
 var app = builder.Build();

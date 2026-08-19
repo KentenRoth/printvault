@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using PrintVault.Backend.Configuration;
@@ -25,7 +26,8 @@ public class FileWatcherServiceTests : IDisposable
             StorageRoot = _storagePath,
         });
         
-        _service = new FileWatcherService(NullLogger<FileWatcherService>.Instance, options);
+        var scopeFactory = new ServiceCollection().BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+        _service = new FileWatcherService(NullLogger<FileWatcherService>.Instance, options, new MfParserService(), scopeFactory);
     }
 
     [Fact]

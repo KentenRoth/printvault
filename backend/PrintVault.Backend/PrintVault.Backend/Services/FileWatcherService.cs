@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
 using PrintVault.Backend.Configuration;
 
 namespace PrintVault.Backend.Services;
@@ -9,12 +7,20 @@ public class FileWatcherService : BackgroundService
 {
     private readonly ILogger<FileWatcherService> _logger;
     private readonly StorageOptions _options;
+    private readonly MfParserService _parser;
+    private readonly IServiceScopeFactory _scopeFactory;
     private FileSystemWatcher? _watcher;
-    
-    public FileWatcherService(ILogger<FileWatcherService> logger, IOptions<StorageOptions> options)
+
+    public FileWatcherService(
+        ILogger<FileWatcherService> logger,
+        IOptions<StorageOptions> options,
+        MfParserService parser,
+        IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _options = options.Value;
+        _parser = parser;
+        _scopeFactory = scopeFactory;
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,29 +38,45 @@ public class FileWatcherService : BackgroundService
             _logger.LogInformation("FileWatcherService is stopping.");
             _watcher.EnableRaisingEvents = false;
         });
-        
+
         return Task.CompletedTask;
     }
 
     private async void OnFileCreated(object sender, FileSystemEventArgs e)
     {
-       _logger.LogInformation("Detected: {File}", e.Name);
-       
-       var ready = await WaitForFileReadyAsync(e.FullPath);
-       
-       if (!ready)
-       {
-           _logger.LogError("File not ready: {File}",  e.Name);
-           return;
-       }
-       MoveFile(e.FullPath);
+        _logger.LogInformation("Detected: {File}", e.Name);
+
+        var ready = await WaitForFileReadyAsync(e.FullPath);
+        if (!ready)
+        {
+            _logger.LogError("File not ready: {File}", e.Name);
+            return;
+        }
+
+        var destination = MoveFile(e.FullPath);
+
+        try
+        {
+            var data = _parser.Parse(destination);
+
+            await using var scope = _scopeFactory.CreateAsyncScope();
+            var ingestion = scope.ServiceProvider.GetRequiredService<ModelIngestionService>();
+            await ingestion.IngestAsync(data);
+
+            _logger.LogInformation("Ingested: {File}", e.Name);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to ingest {File}", e.Name);
+        }
     }
 
-    public void MoveFile(string sourcePath)
+    public string MoveFile(string sourcePath)
     {
         var destination = BuildDestinationPath(sourcePath);
         File.Move(sourcePath, destination);
-        _logger.LogInformation("Moving {Source} to {Destination}", Path.GetFileName(sourcePath),Path.GetFileName(destination));
+        _logger.LogInformation("Moving {Source} to {Destination}", Path.GetFileName(sourcePath), Path.GetFileName(destination));
+        return destination;
     }
 
     private async Task<bool> WaitForFileReadyAsync(string filePath)
@@ -96,5 +118,4 @@ public class FileWatcherService : BackgroundService
         _watcher?.Dispose();
         base.Dispose();
     }
-    
 }
