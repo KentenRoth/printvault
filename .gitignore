@@ -528,3 +528,9 @@ FodyWeavers.xsd
 .env
 .env.local
 .env.*.local
+
+# Local dev storage for FileWatcherService
+backend/PrintVault.Backend/PrintVault.Backend/devdata/
+
+# Local dev secrets (connection strings, etc.) — see appsettings.Development.json.example
+backend/PrintVault.Backend/PrintVault.Backend/appsettings.Development.json

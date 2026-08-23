@@ -1,0 +1,15 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "PrintVault": "Host=localhost;Port=5432;Database=printvault;Username=printvault;Password=CHANGE_ME"
+  },
+  "Storage": {
+    "IncomingPath": "./devdata/incoming",
+    "StorageRoot": "./devdata/storage"
+  }
+}
