@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PrintVault.Backend.Configuration;
 using PrintVault.Backend.Data;
 using PrintVault.Backend.Interfaces;
+using PrintVault.Backend.Mappings;
 using PrintVault.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddScoped<ModelIngestionService>();
 builder.Services.AddHostedService<FileWatcherService>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IModelService, ModelService>();
+builder.Services.AddAutoMapper(x => { }, typeof(Program).Assembly);
 
 var app = builder.Build();
 
