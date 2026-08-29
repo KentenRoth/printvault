@@ -36,4 +36,31 @@ public class ModelService : IModelService
 
         return ServiceResponseHelper.CreateSuccessResponse(models);
     }
+
+    public async Task<ServiceResponseDto<ModelResponseDto>> GetModelById(int id)
+    {
+        var model = await _context.PrintModels.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (model == null)
+        {
+            return ServiceResponseHelper.CreateErrorResponse<ModelResponseDto>("Model Not Found");
+        }
+
+        var modelResponse = new ModelResponseDto
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Description = model.Description,
+            CreationDate = model.CreationDate,
+            ProfileTitle = model.ProfileTitle,
+            ProfileDescription = model.ProfileDescription,
+            TotalFilamentUsedG = model.TotalFilamentUsedG,
+            TotalPrintTimeSeconds = model.TotalPrintTimeSeconds,
+            NumberOfPlates = model.NumberOfPlates,
+            IsFavorite = model.IsFavorite,
+            ImportedAt = model.ImportedAt
+        };
+
+        return ServiceResponseHelper.CreateSuccessResponse(modelResponse);
+    }
 }

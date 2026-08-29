@@ -21,4 +21,16 @@ public class ModelController : ControllerBase
         
         return Ok(models);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetModelById(int id)
+    {
+        var model = await _modelService.GetModelById(id);
+
+        if (!model.Success)
+        {
+            return NotFound();
+        }
+        return Ok(model);
+    }
 }

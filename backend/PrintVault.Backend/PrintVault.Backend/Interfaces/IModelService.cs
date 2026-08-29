@@ -7,4 +7,5 @@ using PrintVault.Backend.DTOs.Model.Response;
 public interface IModelService
 {
     Task<ServiceResponseDto<List<ModelResponseDto>>> GetModels();
+    Task<ServiceResponseDto<ModelResponseDto>> GetModelById(int id);
 }
