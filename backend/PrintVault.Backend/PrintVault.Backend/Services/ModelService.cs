@@ -31,7 +31,9 @@ public class ModelService : IModelService
 
     public async Task<ServiceResponseDto<ModelResponseDto>> GetModelById(int id)
     {
-        var model = await _context.PrintModels.FirstOrDefaultAsync(r => r.Id == id);
+        var model = await _context.PrintModels
+            .Include(r => r.Plates)
+            .FirstOrDefaultAsync(r => r.Id == id);
 
         if (model == null)
         {

@@ -9,5 +9,6 @@ public class ModelProfile : Profile
     public ModelProfile()
     {
         CreateMap<PrintModel, ModelResponseDto>();
+        CreateMap<Plate, PlateResponseDto>();
     }
 }

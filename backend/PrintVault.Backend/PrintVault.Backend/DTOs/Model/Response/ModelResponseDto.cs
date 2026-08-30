@@ -13,4 +13,6 @@ public class ModelResponseDto
     public int NumberOfPlates { get; set; }
     public bool IsFavorite { get; set; }
     public DateTime ImportedAt { get; set; }
+
+    public List<PlateResponseDto> Plates { get; set; } = new();
 }
