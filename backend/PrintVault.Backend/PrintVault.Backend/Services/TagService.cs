@@ -28,4 +28,13 @@ public class TagService : ITagService
 
         return ServiceResponseHelper.CreateSuccessResponse(tags);
     }
+
+    public async Task<ServiceResponseDto<TagResponseDto>> GetTagById(int id)
+    {
+        var tag = await _context.Tags.FirstOrDefaultAsync(r => r.Id == id);
+        if (tag == null) ServiceResponseHelper.CreateErrorResponse<TagResponseDto>("Tag Not Found");
+        
+        var tagResponse = _mapper.Map<TagResponseDto>(tag);
+        return ServiceResponseHelper.CreateSuccessResponse<TagResponseDto>(tagResponse);
+    }
 }

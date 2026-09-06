@@ -20,4 +20,11 @@ public class TagController : ControllerBase
         var tags = await _tagService.GetTags();
         return Ok(tags);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTagById(int id)
+    {
+        var tag = await _tagService.GetTagById(id);
+        return Ok(tag);
+    }
 }
