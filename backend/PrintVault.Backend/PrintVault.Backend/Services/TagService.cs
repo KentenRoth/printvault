@@ -3,9 +3,11 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using PrintVault.Backend.Data;
 using PrintVault.Backend.DTOs;
+using PrintVault.Backend.DTOs.Model.Request;
 using PrintVault.Backend.DTOs.Model.Response;
 using PrintVault.Backend.Helpers;
 using PrintVault.Backend.Interfaces;
+using PrintVault.Backend.Models;
 
 namespace PrintVault.Backend.Services;
 
@@ -36,5 +38,19 @@ public class TagService : ITagService
         
         var tagResponse = _mapper.Map<TagResponseDto>(tag);
         return ServiceResponseHelper.CreateSuccessResponse<TagResponseDto>(tagResponse);
+    }
+
+    public async Task<ServiceResponseDto<TagResponseDto>> CreateTag(CreateTagDto dto)
+    {
+        var tag = new Tag
+        {
+            Name = dto.Name
+        };
+
+        _context.Tags.Add(tag);
+        await _context.SaveChangesAsync();
+        
+        var responseDto = _mapper.Map<TagResponseDto>(tag);
+        return ServiceResponseHelper.CreateSuccessResponse(responseDto);
     }
 }

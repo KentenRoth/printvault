@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PrintVault.Backend.DTOs.Model.Request;
 using PrintVault.Backend.Interfaces;
 
 namespace PrintVault.Backend.Controllers;
@@ -25,6 +26,13 @@ public class TagController : ControllerBase
     public async Task<IActionResult> GetTagById(int id)
     {
         var tag = await _tagService.GetTagById(id);
+        return Ok(tag);
+    }
+
+    [HttpPost("tags")]
+    public async Task<IActionResult> CreateTag([FromBody] CreateTagDto dto)
+    {
+        var tag = await _tagService.CreateTag(dto);
         return Ok(tag);
     }
 }
