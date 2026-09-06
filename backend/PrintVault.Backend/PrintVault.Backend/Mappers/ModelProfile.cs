@@ -10,5 +10,6 @@ public class ModelProfile : Profile
     {
         CreateMap<PrintModel, ModelResponseDto>();
         CreateMap<Plate, PlateResponseDto>();
+        CreateMap<Tag, TagResponseDto>();
     }
 }

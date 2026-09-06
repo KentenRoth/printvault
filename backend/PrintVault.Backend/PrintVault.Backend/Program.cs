@@ -18,6 +18,7 @@ builder.Services.AddScoped<ModelIngestionService>();
 builder.Services.AddHostedService<FileWatcherService>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IModelService, ModelService>();
+builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddAutoMapper(x => { }, typeof(Program).Assembly);
 
 var app = builder.Build();
