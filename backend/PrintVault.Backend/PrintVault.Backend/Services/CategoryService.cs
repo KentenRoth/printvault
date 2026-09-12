@@ -35,7 +35,7 @@ public class CategoryService : ICategoryService
     {
         var category = await _context.Categories.FirstOrDefaultAsync(r => r.Id == id);
 
-        if (category == null) ServiceResponseHelper.CreateErrorResponse<CategoryResponseDto>("Category Not Found");
+        if (category == null) return ServiceResponseHelper.CreateErrorResponse<CategoryResponseDto>("Category Not Found");
         
         var categoryResponse = _mapper.Map<CategoryResponseDto>(category);
         return ServiceResponseHelper.CreateSuccessResponse(categoryResponse);
