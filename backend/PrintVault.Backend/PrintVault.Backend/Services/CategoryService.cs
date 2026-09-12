@@ -53,5 +53,17 @@ public class CategoryService : ICategoryService
         var responseDto = _mapper.Map<CategoryResponseDto>(category);
         return ServiceResponseHelper.CreateSuccessResponse(responseDto);
     }
+
+    public async Task<ServiceResponseDto<EmptyDto>> DeleteCategory(int id)
+    {
+        var category = await _context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (category == null) return ServiceResponseHelper.CreateErrorResponse<EmptyDto>("Category Not Found");
+
+        _context.Categories.Remove(category);
+        await _context.SaveChangesAsync();
+        
+        return ServiceResponseHelper.CreateSuccessResponse(new EmptyDto());
+    }
     
 }
