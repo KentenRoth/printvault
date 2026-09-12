@@ -42,4 +42,11 @@ public class TagController : ControllerBase
         var tag = await _tagService.DeleteTag(id);
         return Ok(tag);
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateTag(int id, [FromBody] CreateTagDto dto)
+    {
+        var tag = await _tagService.UpdateTag(id, dto);
+        return Ok(tag); 
+    }
 }

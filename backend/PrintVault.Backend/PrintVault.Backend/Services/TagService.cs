@@ -65,4 +65,19 @@ public class TagService : ITagService
 
         return ServiceResponseHelper.CreateSuccessResponse(new EmptyDto());
     }
+
+    public async Task<ServiceResponseDto<TagResponseDto>> UpdateTag(int id, CreateTagDto dto)
+    {
+        if (dto.Name == "") return ServiceResponseHelper.CreateErrorResponse<TagResponseDto>("Tag Name is Required");
+
+        var tag = await _context.Tags.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (tag == null) return ServiceResponseHelper.CreateErrorResponse<TagResponseDto>("Tag Not Found");
+        
+        tag.Name = dto.Name;
+        await _context.SaveChangesAsync();
+
+        var responseDto = _mapper.Map<TagResponseDto>(tag);
+        return ServiceResponseHelper.CreateSuccessResponse(responseDto);
+    }
 }
