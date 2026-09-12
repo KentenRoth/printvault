@@ -65,5 +65,19 @@ public class CategoryService : ICategoryService
         
         return ServiceResponseHelper.CreateSuccessResponse(new EmptyDto());
     }
+
+    public async Task<ServiceResponseDto<CategoryResponseDto>> UpdateCategory(int id, CreateCategoryDto dto)
+    {
+        if (dto.Name == "") return ServiceResponseHelper.CreateErrorResponse<CategoryResponseDto>("Category Name is Required");
+        var category = await _context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+        
+        if (category == null) return ServiceResponseHelper.CreateErrorResponse<CategoryResponseDto>("Category Not Found");
+        
+        category.Name = dto.Name;
+        await _context.SaveChangesAsync();
+        
+        var responseDto = _mapper.Map<CategoryResponseDto>(category);
+        return ServiceResponseHelper.CreateSuccessResponse(responseDto);
+    }
     
 }

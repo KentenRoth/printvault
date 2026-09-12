@@ -44,4 +44,11 @@ public class CategoryController : ControllerBase
         var category = await _categoryService.DeleteCategory(id);
         return Ok(category);
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto dto)
+    {
+        var category = await _categoryService.UpdateCategory(id, dto);
+        return Ok(category);
+    }
 }

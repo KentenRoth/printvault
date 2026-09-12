@@ -10,4 +10,5 @@ public interface ICategoryService
     Task<ServiceResponseDto<CategoryResponseDto>> GetCategoryById(int id);
     Task<ServiceResponseDto<CategoryResponseDto>> CreateCategory(CreateCategoryDto dto);
     Task<ServiceResponseDto<EmptyDto>> DeleteCategory(int id);
+    Task<ServiceResponseDto<CategoryResponseDto>> UpdateCategory(int id, CreateCategoryDto dto);
 }
