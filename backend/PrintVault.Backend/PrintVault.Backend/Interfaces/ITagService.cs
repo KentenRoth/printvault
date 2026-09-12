@@ -9,4 +9,5 @@ public interface ITagService
     Task<ServiceResponseDto<List<TagResponseDto>>> GetTags();
     Task<ServiceResponseDto<TagResponseDto>> GetTagById(int id);
     Task<ServiceResponseDto<TagResponseDto>> CreateTag(CreateTagDto dto);
+    Task<ServiceResponseDto<EmptyDto>> DeleteTag(int id);
 }

@@ -34,7 +34,7 @@ public class TagService : ITagService
     public async Task<ServiceResponseDto<TagResponseDto>> GetTagById(int id)
     {
         var tag = await _context.Tags.FirstOrDefaultAsync(r => r.Id == id);
-        if (tag == null) ServiceResponseHelper.CreateErrorResponse<TagResponseDto>("Tag Not Found");
+        if (tag == null) return ServiceResponseHelper.CreateErrorResponse<TagResponseDto>("Tag Not Found");
         
         var tagResponse = _mapper.Map<TagResponseDto>(tag);
         return ServiceResponseHelper.CreateSuccessResponse<TagResponseDto>(tagResponse);
@@ -52,5 +52,17 @@ public class TagService : ITagService
         
         var responseDto = _mapper.Map<TagResponseDto>(tag);
         return ServiceResponseHelper.CreateSuccessResponse(responseDto);
+    }
+
+    public async Task<ServiceResponseDto<EmptyDto>> DeleteTag(int id)
+    {
+        var tag = await _context.Tags.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (tag == null) return ServiceResponseHelper.CreateErrorResponse<EmptyDto>("Tag Not Found");
+
+        _context.Tags.Remove(tag);
+        await _context.SaveChangesAsync();
+
+        return ServiceResponseHelper.CreateSuccessResponse(new EmptyDto());
     }
 }
