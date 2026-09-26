@@ -44,4 +44,16 @@ public class ModelService : IModelService
 
         return ServiceResponseHelper.CreateSuccessResponse(modelResponse);
     }
+
+    public async Task<ServiceResponseDto<EmptyDto>> DeleteModel(int id)
+    {
+        var model = await _context.PrintModels.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (model == null) return ServiceResponseHelper.CreateErrorResponse<EmptyDto>("Model Not Found");
+        
+        _context.PrintModels.Remove(model);
+        await _context.SaveChangesAsync();
+        
+        return ServiceResponseHelper.CreateSuccessResponse(new EmptyDto());
+    }
 }

@@ -8,4 +8,5 @@ public interface IModelService
 {
     Task<ServiceResponseDto<List<ModelResponseDto>>> GetModels();
     Task<ServiceResponseDto<ModelResponseDto>> GetModelById(int id);
+    Task<ServiceResponseDto<EmptyDto>> DeleteModel(int id);
 }

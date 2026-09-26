@@ -33,4 +33,11 @@ public class ModelController : ControllerBase
         }
         return Ok(model);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteModel(int id)
+    {
+        var model = await _modelService.DeleteModel(id);
+        return Ok(model);
+    }
 }
