@@ -15,4 +15,6 @@ public class ModelResponseDto
     public DateTime ImportedAt { get; set; }
 
     public List<PlateResponseDto> Plates { get; set; } = new();
+    public List<TagResponseDto>? Tags { get; set; }
+    public CategoryResponseDto? Category { get; set; }
 }

@@ -8,7 +8,8 @@ public class ModelProfile : Profile
 {
     public ModelProfile()
     {
-        CreateMap<PrintModel, ModelResponseDto>();
+        CreateMap<PrintModel, ModelResponseDto>()
+            .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.ModelTags.Select(mt => mt.Tag)));
         CreateMap<Plate, PlateResponseDto>();
         CreateMap<Tag, TagResponseDto>();
         CreateMap<Category, CategoryResponseDto>();

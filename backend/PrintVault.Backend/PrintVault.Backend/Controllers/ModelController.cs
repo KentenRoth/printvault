@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PrintVault.Backend.DTOs.Model.Request;
 using PrintVault.Backend.Interfaces;
 
 namespace PrintVault.Backend.Controllers;
@@ -38,6 +39,14 @@ public class ModelController : ControllerBase
     public async Task<IActionResult> DeleteModel(int id)
     {
         var model = await _modelService.DeleteModel(id);
+        return Ok(model);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateModel(int id, [FromBody] UpdateModelDto dto)
+    {
+        var model = await _modelService.UpdateModel(id, dto);
+        if (!model.Success) return BadRequest(model);
         return Ok(model);
     }
 }
