@@ -1,6 +1,7 @@
 using System.IO.Compression;
 using System.Xml.Linq;
 using PrintVault.Backend.Models;
+using PrintVault.Backend.Helpers;
 
 namespace PrintVault.Backend.Services;
 
@@ -45,10 +46,10 @@ public class MfParserService
         return new ModelFileData
         {
             Title = GetMetadata("Title"),
-            Description = GetMetadata("Description"),
+            Description = HtmlDescriptionHelper.Normalize(GetMetadata("Description")),
             CreationDate = GetMetadata("CreationDate"),
             ProfileTitle = GetMetadata("ProfileTitle"),
-            ProfileDescription = GetMetadata("ProfileDescription")
+            ProfileDescription = HtmlDescriptionHelper.Normalize(GetMetadata("ProfileDescription"))
         };
     }
 
