@@ -144,6 +144,10 @@ namespace PrintVault.Backend.Migrations
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("NumberOfPlates")
                         .HasColumnType("integer");
 
