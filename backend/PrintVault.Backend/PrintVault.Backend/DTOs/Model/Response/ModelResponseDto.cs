@@ -8,6 +8,7 @@ public class ModelResponseDto
     public string CreationDate { get; set; } = string.Empty;
     public string ProfileTitle { get; set; } = string.Empty;
     public string ProfileDescription { get; set; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
     public double TotalFilamentUsedG { get; set; }
     public int TotalPrintTimeSeconds { get; set; }
     public int NumberOfPlates { get; set; }

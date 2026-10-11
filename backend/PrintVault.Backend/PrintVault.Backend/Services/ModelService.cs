@@ -69,14 +69,21 @@ public class ModelService : IModelService
 
         if (dto.Title != null)
         {
-            if (string.IsNullOrWhiteSpace(dto.Title)) return ServiceResponseHelper.CreateErrorResponse<ModelResponseDto>("Title is Empty");
+            if (string.IsNullOrWhiteSpace(dto.Title))
+                return ServiceResponseHelper.CreateErrorResponse<ModelResponseDto>("Title is Empty");
             model.Title = dto.Title;
         }
-
+        
         if (dto.Description != null)
         {
-            if (string.IsNullOrWhiteSpace(dto.Description)) return ServiceResponseHelper.CreateErrorResponse<ModelResponseDto>("Description is Empty");
+            if (string.IsNullOrWhiteSpace(dto.Description))
+                return ServiceResponseHelper.CreateErrorResponse<ModelResponseDto>("Description is Empty");
             model.Description = dto.Description;
+        }
+
+        if (dto.Notes != null)
+        {
+            model.Notes = dto.Notes;
         }
 
         if (dto.IsFavorite != null)
